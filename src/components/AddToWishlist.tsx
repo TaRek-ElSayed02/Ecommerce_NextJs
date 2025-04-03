@@ -44,7 +44,7 @@ export default function AddToWishlist({
         dispatch(removeFromWishlist(productId));
         setSnackbarMessage("Item removed from wishlist");
       } else {
-        // Validate product data before adding
+        
         if (!productId || !productTitle || !productImage || productPrice === undefined) {
           console.error("Invalid product data:", { productId, productTitle, productImage, productPrice });
           setSnackbarMessage("Could not add to wishlist: Missing product data");

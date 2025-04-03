@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Box, Typography, CircularProgress, Container } from '@mui/material';
 import AddToCartButton from '@/components/AddToCart';
-import ReadMore from '@/components/ReadMore'; // Import ReadMore component
+import ReadMore from '@/components/ReadMore'; 
 
 interface Product {
   id: number;

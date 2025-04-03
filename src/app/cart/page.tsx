@@ -3,8 +3,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import { removeFromCart, incrementQuantity, decrementQuantity, addToCart } from "../../redux/cartSlice";
+import { Box, Typography, IconButton } from "@mui/material";
+import { removeFromCart, incrementQuantity, decrementQuantity } from "../../redux/cartSlice";
+import Link from "next/link";
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -22,15 +23,11 @@ const Cart: React.FC = () => {
     dispatch(removeFromCart(productId));
   };
 
-  
-  // Calculate total price of all items in cart
   const totalPrice = cartItems.reduce((total, item) => {
     return total + ((item.price || 0) * item.quantity);
   }, 0);
 
-  // Format price as currency with 2 decimal places
   const formatPrice = (price: number | undefined): string => {
-    // Ensure price is a number before calling toFixed
     return (price || 0).toFixed(2);
   };
 
@@ -39,7 +36,38 @@ const Cart: React.FC = () => {
       <Typography variant="h5" sx={{ marginBottom: "20px" }}>Your Cart</Typography>
 
       {cartItems.length === 0 ? (
-        <Typography>No items in cart</Typography>
+        <Box sx={{ 
+          textAlign: 'center', 
+          py: 8, 
+          bgcolor: '#f8f9fa', 
+          borderRadius: 2,
+          border: '1px dashed #ddd' 
+        }}>
+          <Typography variant="h6" sx={{ mb: 2, color: '#666' }}>
+            Your cart is empty
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3, color: '#888', maxWidth: '400px', mx: 'auto' }}>
+            Add items to your cart to proceed with your purchase
+          </Typography>
+          <Link href="/products" passHref>
+            <Box 
+              component="a"
+              sx={{ 
+                display: 'inline-block',
+                bgcolor: '#ffcc00', 
+                color: '#000', 
+                padding: '12px 24px',
+                borderRadius: '2px',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                textDecoration: 'none',
+                '&:hover': { bgcolor: '#e6b800' }
+              }}
+            >
+              Explore Products
+            </Box>
+          </Link>
+        </Box>
       ) : (
         <>
           {cartItems.map((item) => (
@@ -89,14 +117,14 @@ const Cart: React.FC = () => {
                 <IconButton onClick={() => handleIncreaseQuantity(item.id)} sx={{ color: "#888" }}>
                   +
                 </IconButton>
-                <Button
+                <IconButton
                   variant="outlined"
                   color="error"
                   sx={{ marginLeft: "10px" }}
                   onClick={() => handleRemoveItem(item.id)}
                 >
                   Remove
-                </Button>
+                </IconButton>
               </Box>
             </Box>
           ))}
